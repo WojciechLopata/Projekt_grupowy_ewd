@@ -3,39 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" type="text/css" href="projekt_grupowy.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script>
-        
-    </script>
+    <title>Projekt_grupowy</title>
 </head>
 <body>
+    <div id="header">
+        <h1>Projekt grupowy</h1>
+        <a onclick="Kolowy()">Diagram kołowy</a>
+        <a onclick="Blokowy()">Diagram słupkowy</a>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <div style="width: 100%;height: 150px;"> 
     <div style="display: block;width:50% ;float: left;"> 
-        <button style="width:100% ; " id="guzik" >kolowy<hr><canvas onclick="Kolowy()" id="goodCanvas1"  width="100%" height="100px" style="border: 1px solid yellow;background-color: whitesmoke;width: 100%;height: 100px;" aria-label="Hello ARIA World" role="img"></canvas></button></div> 
-    <div style="display: block;float: right;width: 50%;"><button style="width:100% ; " id="guzik" >blokowy<hr><canvas onclick="Blokowy()" id="goodCanvas2"  width="100%" height="100px" style="border: 1px solid yellow;background-color: whitesmoke;width: 100%;height: 100px;" aria-label="Hello ARIA World" role="img"></canvas></button></div> </div>
+        <button style="width:100% ; " class="guzik" >Diagram kołowy<hr><canvas onclick="Kolowy()" id="goodCanvas1"  width="100%" height="100px" aria-label="Hello ARIA World" role="img"></canvas></button></div> 
+    <div style="display: block;float: right;width: 50%;"><button style="width:100% ; " class="guzik" >Diagram słupkowy<hr><canvas onclick="Blokowy()" id="goodCanvas2"  width="100%" height="100px" style="border: 1px solid lightskyblue;background-color: whitesmoke;width: 100%;height: 100px;" aria-label="Hello ARIA World" role="img"></canvas></button></div> </div>
+    <button  id="przycisk" onclick="reqListener()"  >JSON</button>
+    <div id="json">
+        <img id="photo" src="json.png">
     </div>
-    <button  onclick="reqListener()"  >kliknij mnie </button>
-    <div id="json"> </div>
-    
-
+        
+</div>
+     
 <script>
-   
-
 function reqListener () {
    
-    document.getElementById("json").innerHTML =oReq.responseText;
+   document.getElementById("json").innerHTML =oReq.responseText;
 }
-  
-  var oReq = new XMLHttpRequest();
-  var text = XMLHttpRequest.responseText;
  
-  oReq.open("GET", "https://my.api.mockaroo.com/projekt_grupowy.json?key=fb0f8f20");
-  oReq.send();
-  
-    
+ var oReq = new XMLHttpRequest();
+ var text = XMLHttpRequest.responseText;
+
+ oReq.open("GET", "https://my.api.mockaroo.com/projekt_grupowy.json?key=fb0f8f20");
+ oReq.send();
 function Kolowy(){
       const ctx = document.getElementById('goodCanvas1').getContext('2d');
     const goodCanvas1 = new Chart(ctx, {
@@ -113,6 +114,5 @@ function Blokowy(){
   });
   }    
 </script>
-
 </body>
 </html>
