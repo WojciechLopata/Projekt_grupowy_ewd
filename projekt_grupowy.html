@@ -33,21 +33,18 @@
     <div style="display: block;width:50% ;float: left;"> 
         <canvas id="goodCanvas1"  width="100%" height="100px" aria-label="Hello ARIA World" role="img"></canvas></button></div> 
     <div style="display: block;float: right;width: 50%;"><canvas  id="goodCanvas2"  width="100%" height="100px" aria-label="Hello ARIA World" role="img"></canvas></div> </div>
-  
+    <a onclick="render1()">tworz</a>
+    <a onclick="destroy1()">zniszcz</a>
 </div>
      
 <script>
 var bool1=false
 var bool2=false
-
-
-
-
-
+var booljson=false
 
 function reqListener () {
-   
-   document.getElementById("json").innerHTML =oReq.responseText;
+   if(booljson){document.getElementById("json").innerHTML="<img id=\"photo\" src=\"json2.jfif\">";booljson=false}
+   else {document.getElementById("json").innerHTML =oReq.responseText;booljson=true}
 }
  
  var oReq = new XMLHttpRequest();
@@ -105,12 +102,8 @@ function del_attr1(){
 }
 
  function render1(){
-       goodCanvas1 = new Chart(
-      document.getElementById('goodCanvas1').getContext("2d"),
-      
-      config1
-    )
-    document.getElementById("goodCanvas1").setAttribute("class", "chart"); ;}
+       goodCanvas1 = new Chart(document.getElementById('goodCanvas1').getContext("2d"), config1)
+       document.getElementById("goodCanvas1").setAttribute("class", "chart"); ;}
 
     
  
