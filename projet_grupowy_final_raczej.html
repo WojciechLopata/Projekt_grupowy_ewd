@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" type="text/css" href="projekt_grupowy.css" />
+    <style>
+      .chart {
+        width: 100%;
+        height: 100px;
+        border: 1px solid lightskyblue;
+        background-color: rgb(250, 251, 195);
+        width: 100%;
+        height: 100px;
+      }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projekt_grupowy</title>
+  </head>
+  <body>
+    <div id="header">
+      <a onclick="Kolowy()">Diagram kołowy</a>
+      <h1>Projekt grupowy</h1>
+      <a onclick="Blokowy()">Diagram słupkowy</a>
+    </div>
+    <div id="opis">
+      <h2 id="pytanie1">Co to jest JSON?</h2>
+      <img id="photo_json" src="json1.jpg" />
+      <p id="odp1">
+        JSON to otwarty format zapisu struktur danych. Jego przeznaczeniem jest
+        najczęściej wymiana danych pomiędzy aplikacjami. JSON składa się z par
+        atrybut – wartość oraz typów danych tablicowych. Notacja JSONa jest
+        zbieżna z obiektami w języku JavaScript. Jego zaletą jest popularność,
+        prostota działania, zwięzłość syntaktyki a jako że dane są zapisywane do
+        tekstu – po sformatowaniu czytelne dla ludzi. Został stworzony w 2001
+        roku a autorem jego specyfikacji opisanej w dokumencie RFC 8259 jest
+        Douglas Crockford.
+      </p>
+      <img id="wykres" src="wykres.jpg" />
+      <h2 id="pytanie2">Czym jest wykres?</h2>
+      <p id="odp2">
+        Wykresy służą do prezentowania wszelkich danych, od papierów
+        wartościowych i towarów aż po zyski przedsiębiorstw. Grafiki, tabele i
+        diagramy to różnego rodzaju wykresy, stosowane do lepszego zilustrowania
+        inwestorom analizowanych informacji. Wykresy są powszechnie stosowane
+        przez analityków technicznych. Uważają oni, że śledzenie trendów
+        rynkowych jest najlepszym sposobem na ustalenie strategii inwestycyjnej.
+      </p>
+    </div>
+    <button id="przycisk" onclick="reqListener()">JSON</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <br />
+    <div id="json">
+      <img id="photo" src="json2.jfif" />
+    </div>
+    <div style="width: 100%; height: 150px">
+      <div style="display: block; width: 50%; float: left">
+        <canvas
+          id="goodCanvas1"
+          width="100%"
+          height="100px"
+          aria-label="Hello ARIA World"
+          role="img"
+        ></canvas>
+      </div>
+      <div style="display: block; float: right; width: 50%">
+        <canvas
+          id="goodCanvas2"
+          width="100%"
+          height="100px"
+          aria-label="Hello ARIA World"
+          role="img"
+        ></canvas>
+      </div>
+    </div>
+
+    <script>
+      var bool1 = false;
+      var bool2 = false;
+      var booljson = false;
+      const ranges = [
+        { from: 0, to: 18 },
+        { from: 19, to: 30 },
+        { from: 31, to: 50 },
+        { from: 51, to: 85 },
+        { from: 86, to: 100 },
+      ];
+      const chartConfig = {
+        labels: [],
+        datasets: [
+          {
+            label: "liczba osób",
+            data: [],
+            backgroundColor: [
+              "rgba(255, 99, 132, 0.2)",
+              "rgba(54, 162, 235, 0.2)",
+              "rgba(255, 206, 86, 0.2)",
+              "rgba(75, 192, 192, 0.2)",
+              "rgba(153, 102, 255, 0.2)",
+              "rgba(255, 159, 64, 0.2)",
+            ],
+            borderColor: [
+              "rgba(255, 99, 132, 1)",
+              "rgba(54, 162, 235, 1)",
+              "rgba(255, 206, 86, 1)",
+              "rgba(75, 192, 192, 1)",
+              "rgba(153, 102, 255, 1)",
+              "rgba(255, 159, 64, 1)",
+            ],
+            borderWidth: 1,
+          },
+        ],
+      };
+
+      async function fetchData() {
+        const responseData = await fetch(
+          "https://my.api.mockaroo.com/project.json?key=fb0f8f20"
+        );
+        return responseData.json();
+      }
+
+      async function setupData() {
+        const data = await fetchData();
+        const groupedData = ranges.map(
+          (range) =>
+            data.filter(
+              (entry) => entry.age >= range.from && entry.age <= range.to
+            ).length
+        );
+
+        chartConfig.labels = ranges.map(
+          (range) => `${range.from} - ${range.to}`
+        );
+        chartConfig.datasets[0].data = groupedData;
+      }
+
+      function reqListener() {
+        if (booljson) {
+          document.getElementById("json").innerHTML =
+            '<img id="photo" src="json2.jfif">';
+          booljson = false;
+        } else {
+          document.getElementById("json").innerHTML = oReq.responseText;
+          booljson = true;
+        }
+      }
+
+      function destroy1() {
+        goodCanvas1.destroy();
+        del_attr1();
+      }
+
+      function del_attr1() {
+        document.getElementById("goodCanvas1").removeAttribute("class");
+      }
+
+      function render1() {
+        goodCanvas1 = new Chart(
+          document.getElementById("goodCanvas1").getContext("2d"),
+          {
+            type: "polarArea",
+            data: chartConfig,
+            options: { scales: { y: { beginAtZero: true } } },
+          }
+        );
+        document.getElementById("goodCanvas1").setAttribute("class", "chart");
+      }
+
+      function Kolowy() {
+        if (bool1) {
+          destroy1();
+          bool1 = false;
+        } else {
+          render1();
+          bool1 = true;
+        }
+      }
+
+      function destroy2() {
+        del_attr2();
+        goodCanvas2.destroy();
+      }
+      function del_attr2() {
+        document.getElementById("goodCanvas2").removeAttribute("class");
+      }
+
+      function render2() {
+        const goodCanvas2 = new Chart(
+          document.getElementById("goodCanvas2").getContext("2d"),
+          {
+            type: "bar",
+            data: chartConfig,
+            options: {plugins: {
+            title: {
+                display: true,
+                text: 'Custom Chart Title'
+            }
+        } ,
+ scales: { y: { beginAtZero: true } } },
+          }
+        );
+        document.getElementById("goodCanvas2").setAttribute("class", "chart");
+      }
+
+      function Blokowy() {
+        if (bool2) {
+          destroy2();
+          bool2 = false;
+        } else {
+          render2();
+          bool2 = true;
+        }
+      }
+
+      setupData();
+    </script>
+  </body>
+</html>
